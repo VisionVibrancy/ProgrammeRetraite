@@ -1,0 +1,259 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Retraite@Home — Détox & Renaissance en ligne</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0a0a0a; --ink:#ffffff; --gold-strong:#E3C57A; --muted:#d9d6cf;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
+  a{text-decoration:none;color:var(--ink)}
+  .container{max-width:1200px;margin-inline:auto;padding:0 20px}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0a0a0a 70%,rgba(10,10,10,.6));border-bottom:1px solid rgba(232,220,200,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:120px;width:auto}
+  .brand-title{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:28px}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;
+    border:1px solid var(--gold-strong);color:var(--ink);
+    padding:.5rem 1rem;border-radius:999px;font-weight:600;background:transparent;
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10);
+    cursor:pointer;
+  }
+  .btn:hover{background:rgba(227,197,122,.08)}
+
+  /* HERO */
+  .hero{
+    position:relative; isolation:isolate; overflow:hidden;
+    height:72vh; min-height:480px;
+    background:
+      radial-gradient(1800px 1000px at 50% 90%, rgba(0,0,0,.20), transparent 60%),
+      url("hero-notext.png") center top/contain no-repeat;
+  }
+  .hero-img{position:absolute; inset:0; z-index:0; width:100%; height:100%;
+    object-fit:contain; object-position:center top; pointer-events:none; opacity:1;}
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:
+      radial-gradient(1.6px 1.6px at 20% 30%, #E3C57A 70%, transparent 71%),
+      radial-gradient(1.4px 1.4px at 80% 42%, #c8a96b 70%, transparent 71%),
+      radial-gradient(1.8px 1.8px at 52% 75%, #E3C57A 70%, transparent 71%);
+    animation:twinkle 3s ease-in-out infinite alternate;opacity:.9;
+  }
+  @keyframes twinkle{from{filter:drop-shadow(0 0 6px #E3C57A);}to{filter:drop-shadow(0 0 16px #E3C57A);}}
+
+  .hero-copy{position:absolute;left:50%;transform:translateX(-50%);top:2vh;width:min(1100px, 92vw);text-align:center;z-index:2;padding:0 12px;}
+  .hero-copy-bottom{position:absolute;left:50%;transform:translateX(-50%);bottom:8vh;width:min(1100px, 92vw);text-align:center;z-index:2;padding:0 12px;}
+  h1{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,5vw,46px);margin:0;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+  .subtitle{font-size:clamp(14px,2vw,18px);text-shadow:0 2px 10px rgba(0,0,0,.40)}
+  .impact{margin:0;font-size:clamp(13px,2vw,17px);text-shadow:0 2px 10px rgba(0,0,0,.40)}
+
+  /* CTA */
+  .cta-bar{display:flex;justify-content:center;padding:22px 12px 36px;border-top:1px solid rgba(232,220,200,.08);background:linear-gradient(180deg, rgba(227,197,122,.05), rgba(227,197,122,0))}
+  .cta-big{display:inline-flex;gap:.7rem;align-items:center;border:1px solid var(--gold-strong);color:var(--ink);padding:14px 18px;border-radius:999px;font-weight:700;background:transparent;box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 12px rgba(227,197,122,.12);cursor:pointer}
+  .cta-big:hover{background:rgba(227,197,122,.10)}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);z-index:50;padding:20px}
+  .modal[aria-hidden="false"]{display:flex}
+  .modal-card{width:min(760px,100%);border-radius:16px;background:#111;border:1px solid rgba(232,220,200,.25);box-shadow:0 0 28px rgba(227,197,122,.18);color:var(--ink)}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 8px}
+  .modal-title{font-family:"Cormorant Garamond",serif;font-size:24px;margin:0}
+  .close{border:1px solid var(--gold-strong);background:transparent;border-radius:999px;padding:.3rem .6rem;cursor:pointer;color:var(--ink)}
+  .form-body{padding:6px 20px 18px}
+  label{display:block;margin:6px 0 6px;color:var(--ink);font-size:.95rem}
+  .field{width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;border:1px solid var(--gold-strong);box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 14px rgba(227,197,122,.12)}
+  .field:focus{box-shadow:0 0 0 3px rgba(227,197,122,.22), 0 0 22px rgba(227,197,122,.18)}
+  .grid{display:grid;gap:14px}
+  @media(min-width:720px){ .grid.two{grid-template-columns:1fr 1fr} }
+  .hint{font-size:.9rem;color:var(--muted);margin-top:4px}
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin:14px 0 18px;padding:0 20px}
+  .submit{border:1px solid var(--gold-strong);color:var(--ink);background:transparent;border-radius:999px;padding:.7rem 1rem;font-weight:700;box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 12px rgba(227,197,122,.12);cursor:pointer}
+  .submit:hover{background:rgba(227,197,122,.10)}
+
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:60;background:#101010;color:var(--ink);border:1px solid var(--gold-strong);border-radius:12px;padding:12px 16px;display:none}
+
+  footer{padding:36px 0;border-top:1px solid rgba(232,220,200,.08);text-align:center}
+  footer, footer *{color:var(--ink) !important}
+
+ /* ✅ amélioration iPhone : empêcher le zoom automatique sur Safari */
+  @media(max-width:480px){
+    .field { font-size:16px; }
+  }
+</style>
+</head>
+<body>
+  <!-- ✅ IFRAME MAILCHIMP CIBLE (reste en haut du body) -->
+  <iframe name="mc-target" style="display:none;width:0;height:0;border:0;" title="Mailchimp target"></iframe>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <img src="logo.png" alt="Vision Vibrancy">
+      <span class="brand-title">Retraite@Home</span>
+    </div>
+    <nav><a class="btn" href="details.html">En savoir plus</a></nav>
+  </div>
+</header>
+
+<section class="hero" aria-label="Retraite@Home — Hero">
+  <img class="hero-img" src="hero-notext.png" alt="" aria-hidden="true" />
+  <div class="hero-copy">
+    <h1>Votre bien-être commence là où vous êtes déjà.</h1>
+    <p class="subtitle">Détox & Renaissance en ligne • 7 • 21 • 30 jours</p>
+  </div>
+  <div class="hero-copy-bottom">
+    <p class="impact"><strong>Places limitées : 10 participantes</strong> (format 30 jours). Je privilégie les femmes motivées, prêtes au changement et à se choisir.</p>
+  </div>
+</section>
+
+<div class="cta-bar">
+  <button class="cta-big" id="openModal" type="button">Je m’inscris</button>
+</div>
+
+<!-- MODAL FORMULAIRE -->
+<div class="modal" id="modal" aria-hidden="true" aria-labelledby="modalTitle" role="dialog">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Inscription — Retraite@Home</h2>
+      <button class="close" id="closeModal" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- ✅ Mailchimp integration -->
+    <form action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0" 
+          method="post" 
+          id="mc-embedded-subscribe-form" 
+          name="mc-embedded-subscribe-form" 
+          class="form-body validate" 
+          target="mc-target"     
+          novalidate>
+      
+      <div class="grid two">
+        <div>
+          <label for="mce-LNAME">Nom</label>
+          <input class="field" id="mce-LNAME" name="LNAME" required />
+          <div class="hint">Votre nom nous permet de personnaliser votre accompagnement.</div>
+        </div>
+        <div>
+          <label for="mce-FNAME">Prénom</label>
+          <input class="field" id="mce-FNAME" name="FNAME" required />
+          <div class="hint">Nous utiliserons votre prénom dans les échanges de groupe.</div>
+        </div>
+        <div>
+          <label for="mce-EMAIL">Adresse e-mail</label>
+          <input class="field" id="mce-EMAIL" name="EMAIL" type="email" required />
+          <div class="hint">Indispensable pour recevoir le lien du groupe et les vidéos.</div>
+        </div>
+        <div>
+          <!-- (Date de naissance retirée) -->
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label for="mce-DUREE">Durée de la retraite</label>
+        <select class="field" id="mce-DUREE" name="DUREE" required>
+          <option value=""></option>
+          <option value="7 jours">7 jours</option>
+          <option value="21 jours">21 jours</option>
+          <option value="30 jours">30 jours</option>
+        </select>
+        <div class="hint">La durée est <strong>modulable</strong>. Le <strong>format 30 jours</strong> est limité à <strong>10 participantes</strong>.</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label for="mce-WHATSAPP">Numéro WhatsApp</label>
+        <input class="field" id="mce-WHATSAPP" name="WHATSAPP" placeholder="+33 6 12 34 56 78" required />
+        <div class="hint">Utilisé uniquement pour l’<strong>accès au groupe</strong>.</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <label for="mce-SELECT">Ce que j’attends de ma Retraite@Home</label>
+        <textarea class="field" id="mce-SELECT" name="SELECT" rows="4" placeholder="Partagez vos objectifs, votre motivation…"></textarea>
+        <div class="hint">Je sélectionnerai en priorité les personnes les <strong>plus motivées</strong> et prêtes à s’engager.</div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+        <input id="newsletter" name="NEWSLETTER" type="checkbox" checked />
+        <label for="newsletter" style="margin:0">Je m’abonne à la newsletter <strong>Vision Vibrancy</strong>.</label>
+      </div>
+
+      <!-- ✅ Tag caché : identifie toutes les inscrites dans Mailchimp -->
+      <input type="hidden" name="tags" value="Retraite@Home">
+
+      <div class="actions">
+        <button type="button" class="btn" id="closeModal2">Annuler</button>
+        <button type="submit" class="submit">Valider mon inscription</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast">Merci 🎉 Vous allez recevoir un e-mail de confirmation avec les prochaines étapes.</div>
+
+<footer>
+  <div class="container">© <span id="year"></span> Vision Vibrancy — Retraite@Home</div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const modal = document.getElementById('modal');
+  const open = () => modal.setAttribute('aria-hidden','false');
+  const close = () => modal.setAttribute('aria-hidden','true');
+
+  document.getElementById('openModal').addEventListener('click', open);
+  document.getElementById('closeModal').addEventListener('click', close);
+  document.getElementById('closeModal2').addEventListener('click', close);
+  modal.addEventListener('click',(e)=>{ if(e.target===modal) close(); });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') close(); });
+
+  if (location.hash === '#inscription' || location.hash === '#openModal') { open(); }
+</script>
+
+<!-- ✅ Script qui ferme le modal et affiche "Merci 🎉" quand l’iframe Mailchimp a chargé -->
+<script>
+  const mcFrame = document.querySelector('iframe[name="mc-target"]');
+  const toast = document.getElementById('toast');
+  const modalEl = document.getElementById('modal');
+
+  if (mcFrame) {
+    mcFrame.addEventListener('load', () => {
+      if (modalEl && modalEl.getAttribute('aria-hidden') === 'false') {
+        modalEl.setAttribute('aria-hidden', 'true');
+      }
+      if (toast) {
+        toast.textContent = 'Merci 🎉 Vous êtes inscrite, un e-mail arrive très vite.';
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 5200);
+      }
+    });
+  }
+</script>
+
+<!-- ✅ Script qui enrichit automatiquement les tags selon la durée choisie -->
+<script>
+  const formMC   = document.getElementById('mc-embedded-subscribe-form');
+  const dureeSel = document.getElementById('mce-DUREE');
+  if (formMC && dureeSel) {
+    let tagInput = formMC.querySelector('input[name="tags"]');
+    formMC.addEventListener('submit', () => {
+      const v = (dureeSel.value || '').trim();
+      const add = v === '7 jours' ? 'RTH-7' : v === '21 jours' ? 'RTH-21' : v === '30 jours' ? 'RTH-30' : '';
+      tagInput.value = add ? `Retraite@Home, ${add}` : 'Retraite@Home';
+    });
+  }
+</script>
+
+</body>
+</html>
