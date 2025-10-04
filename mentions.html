@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mentions légales — Vision Vibrancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0a;--ink:#fff;--gold:#E3C57A;--muted:#d9d6cf}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
+  a{color:var(--gold);text-decoration:none}
+  header{padding:14px 20px;border-bottom:1px solid rgba(232,220,200,.1)}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:70px}
+  main{max-width:900px;margin:32px auto;padding:0 20px}
+  h1,h2{font-family:"Cormorant Garamond",serif}
+  h1{margin:0 0 16px}
+  h2{margin:26px 0 10px}
+  .card{border:1px solid rgba(232,220,200,.12);border-radius:14px;padding:18px;background:rgba(227,197,122,.04)}
+  .muted{color:var(--muted)}
+  .btn{border:1px solid var(--gold);padding:8px 14px;border-radius:999px;color:var(--ink)}
+  footer{padding:26px 20px;text-align:center;border-top:1px solid rgba(232,220,200,.1)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <a href="index.html" class="btn">← Accueil</a>
+    <img src="logo.png" alt="Vision Vibrancy">
+    <strong>Mentions légales</strong>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <h1>Mentions légales</h1>
+
+    <h2>Éditeur du site</h2>
+    <p class="muted">
+      Vision Vibrancy LP<br/>
+      5 South Charlotte Street, Edinburgh EH2 4AN, Scotland, United Kingdom<br/>
+      N° d’identification : SL037640<br/>
+      Email : <a href="mailto:visionvibrancy@gmail.com">visionvibrancy@gmail.com</a>
+    </p>
+
+    <h2>Directrice de publication</h2>
+    <p class="muted">Elise Ragain</p>
+
+    <h2>Hébergement</h2>
+    <p class="muted">
+      SiteGround Hosting Ltd.<br/>
+      7th Floor, 50 Broadway, London SW1H 0DB, United Kingdom<br/>
+      <a href="https://www.siteground.co.uk">www.siteground.co.uk</a>
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>Tous les contenus du site (textes, images, graphismes, logo, etc.) sont protégés par le droit de la propriété intellectuelle. Toute reproduction ou diffusion sans autorisation est interdite.</p>
+
+    <h2>Responsabilité</h2>
+    <p>Vision Vibrancy met tout en œuvre pour assurer l’exactitude des informations publiées, mais ne peut être tenue responsable des erreurs ou omissions, ni de l’usage qui en est fait.</p>
+
+    <h2>Données personnelles</h2>
+    <p>Les informations recueillies via les formulaires sont utilisées exclusivement pour le suivi des inscriptions et la communication des programmes. Conformément à la réglementation, vous disposez d’un droit d’accès, de rectification et de suppression de vos données, en écrivant à : <a href="mailto:contact@visionvibrancy.com">contact@visionvibrancy.com</a>.</p>
+  </div>
+</main>
+
+<footer>
+  © <span id="year"></span> Vision Vibrancy LP — <a href="index.html">Retour à l’accueil</a>
+</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body>
+</html>

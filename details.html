@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Détails — Retraite@Home</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{--bg:#0a0a0a;--ink:#fff;--gold-strong:#E3C57A;--muted:#d9d6cf}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
+  a{color:var(--ink);text-decoration:none}
+  header{padding:12px 20px;border-bottom:1px solid rgba(232,220,200,.1);display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:100px}
+  .brand-title{font-family:"Cormorant Garamond",serif;font-size:26px}
+  .btn{border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink)}
+
+  main{padding:40px 20px;max-width:1200px;margin:auto}
+  h1,h2,h3{font-family:"Cormorant Garamond",serif}
+  .muted{color:var(--muted)}
+
+  .grid{display:grid;gap:22px}
+  @media(min-width:980px){ .cols-2{grid-template-columns:2fr 1.1fr} }
+
+  .card{border:1px solid rgba(232,220,200,.12);border-radius:16px;padding:16px;background:linear-gradient(180deg, rgba(227,197,122,.05), rgba(227,197,122,0))}
+  .price{font-size:22px;font-weight:500;background:linear-gradient(90deg,#b99854,#E3C57A,#b99854);-webkit-background-clip:text;color:transparent;animation:shimmer 4s linear infinite}
+  @keyframes shimmer{from{background-position:0% 50%}to{background-position:200% 50%}}
+
+  .fit-card{
+    border:1px solid var(--gold-strong);border-radius:16px;
+    padding:20px;background:rgba(20,20,20,.9);
+    display:flex;flex-direction:column;justify-content:center;min-height:360px;
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 16px rgba(227,197,122,.12);
+  }
+  .fit-card h3{text-align:center;margin:0 0 10px;position:relative;padding-bottom:8px}
+  .fit-card h3::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);
+    bottom:0;width:160px;height:2px;background:linear-gradient(90deg, transparent, var(--gold-strong), transparent)
+  }
+  .fit-card ul{margin:12px 0 0;padding-left:0;list-style:none}
+  .fit-card li{margin:10px 0;position:relative;padding-left:22px}
+  .fit-card li::before{content:"◆";position:absolute;left:0;color:var(--gold-strong);line-height:1}
+
+  footer{padding:36px 0;text-align:center;border-top:1px solid rgba(232,220,200,.1)}
+  footer, footer *{color:var(--ink) !important}
+
+  @media(max-width:480px){
+    .field { font-size:16px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="logo.png" alt="Vision Vibrancy">
+    <span class="brand-title">Retraite@Home</span>
+  </div>
+  <a class="btn" href="index.html">Retour</a>
+</header>
+
+<main>
+  <h1>Retraite@Home — Détox & Renaissance</h1>
+
+  <div class="grid cols-2">
+    <div>
+      <p class="muted">Retraite intégrée au quotidien : routines matinales en vidéo, 1 live/semaine (énergie & fréquences, alimentation consciente, confiance en soi, visualisation du futur), coaching holistique et sécurité énergétique (ancrage & protections).</p>
+
+      <h2>3 formats — choisissez votre rythme</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+        <div class="card"><h3>7 jours — Découverte</h3><p class="muted">Un avant-goût transformateur + 1 live.</p><p class="price">97€</p></div>
+        <div class="card"><h3>21 jours — Transformation</h3><p class="muted">Habitudes ancrées, énergie retrouvée, 3 lives.</p><p class="price">247€</p></div>
+        <div class="card"><h3>30 jours — Renaissance</h3><p class="muted">Programme complet + cérémonie finale & surprise VIP.</p><p class="price">397€</p></div>
+      </div>
+
+      <h2 style="margin-top:28px">Ce que vous allez vivre</h2>
+      <ul class="muted">
+        <li>Mouvement doux : marche consciente, étirements, pilates, yoga</li>
+        <li>Détox psychique : respiration, visualisations, journaling, gratitude</li>
+        <li>Rituels d’ancrage & protections énergétiques (cadre sécurisé)</li>
+        <li>Communauté WhatsApp/Instagram pour le soutien et la motivation</li>
+      </ul>
+
+      <div style="margin-top:22px">
+        <a class="btn" href="index.html#inscription">Je m’inscris</a>
+      </div>
+    </div>
+
+    <aside class="fit-card">
+      <h3>C’est pour vous si :</h3>
+      <ul>
+        <li>Vous êtes <strong>prête au changement</strong> et vous vous choisissez, même au cœur du quotidien.</li>
+        <li>Vous êtes <strong>motivée</strong> et prête à <strong>investir en vous</strong> pour des résultats durables.</li>
+        <li>Vous acceptez d’aller <strong>en profondeur</strong> (émotions, croyances, habitudes) avec bienveillance.</li>
+        <li>Vous souhaitez laisser le <strong>new age</strong> au vestiaire et avancer dans un cadre sobre, ancré et sécurisant.</li>
+      </ul>
+    </aside>
+  </div>
+</main>
+
+<!-- 🔻 FOOTER FINAL AVEC LIENS DORÉS -->
+<footer>
+  <div class="container">
+    © <span id="year"></span> Vision Vibrancy LP — Retraite@Home ·
+    <a href="mentions.html" style="color:#E3C57A">Mentions légales</a> ·
+    <a href="conditions.html" style="color:#E3C57A">Conditions générales de vente</a><br/>
+    <small>
+      Vision Vibrancy LP — 5 South Charlotte Street, Edinburgh EH2 4AN, Scotland, United Kingdom ·
+      N° d’identification : SL037640 ·
+      Email : <a href="mailto:visionvibrancy@gmail.com" style="color:#E3C57A">visionvibrancy@gmail.com</a>
+    </small>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+</body>
+</html>
