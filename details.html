@@ -10,13 +10,20 @@
 
 <style>
   :root{--bg:#0a0a0a;--ink:#fff;--gold-strong:#E3C57A;--muted:#d9d6cf}
+  /* container ajouté (utilisé dans cette page) */
+  .container{max-width:1200px;margin-inline:auto;padding:0 20px}
+
   body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
   a{color:var(--ink);text-decoration:none}
   header{padding:12px 20px;border-bottom:1px solid rgba(232,220,200,.1);display:flex;justify-content:space-between;align-items:center}
   .brand{display:flex;align-items:center;gap:10px}
   .brand img{height:100px}
   .brand-title{font-family:"Cormorant Garamond",serif;font-size:26px}
-  .btn{border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink)}
+  .btn{
+    border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink);
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10)
+  }
+  .btn:hover{background:rgba(227,197,122,.08)}
 
   main{padding:40px 20px;max-width:1200px;margin:auto}
   h1,h2,h3{font-family:"Cormorant Garamond",serif}
@@ -44,15 +51,29 @@
   .fit-card li{margin:10px 0;position:relative;padding-left:22px}
   .fit-card li::before{content:"◆";position:absolute;left:0;color:var(--gold-strong);line-height:1}
 
+  /* Formulaire (mêmes styles que index) */
+  .field{width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;border:1px solid var(--gold-strong);
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 14px rgba(227,197,122,.12)}
+  .field:focus{box-shadow:0 0 0 3px rgba(227,197,122,.22), 0 0 22px rgba(227,197,122,.18)}
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin:14px 0 18px}
+  .submit{border:1px solid var(--gold-strong);color:var(--ink);background:transparent;border-radius:999px;padding:.7rem 1rem;font-weight:700;
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 12px rgba(227,197,122,.12);cursor:pointer}
+  .submit:hover{background:rgba(227,197,122,.10)}
+
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:60;background:#101010;color:var(--ink);
+    border:1px solid var(--gold-strong);border-radius:12px;padding:12px 16px;display:none}
+
   footer{padding:36px 0;text-align:center;border-top:1px solid rgba(232,220,200,.1)}
   footer, footer *{color:var(--ink) !important}
 
-  @media(max-width:480px){
-    .field { font-size:16px; }
-  }
+  @media(max-width:480px){ .field { font-size:16px; } }
 </style>
 </head>
 <body>
+
+<!-- cible invisible pour Mailchimp -->
+<iframe name="mc-target" style="display:none;width:0;height:0;border:0;" title="Mailchimp target"></iframe>
+
 <header>
   <div class="brand">
     <img src="logo.png" alt="Vision Vibrancy">
@@ -74,17 +95,77 @@
         <div class="card"><h3>21 jours — Transformation</h3><p class="muted">Habitudes ancrées, énergie retrouvée, 3 lives.</p><p class="price">247€</p></div>
         <div class="card"><h3>30 jours — Renaissance</h3><p class="muted">Programme complet + cérémonie finale & surprise VIP.</p><p class="price">333€</p></div>
       </div>
-<section style="border-top:1px solid rgba(232,220,200,.08);padding:24px 0;">
-  <div class="container">
-    <h3 style="font-family:'Cormorant Garamond',serif;margin:0 0 12px;font-size:26px;">Choisis ta formule</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;">
-      <a class="btn" href="https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00"  target="_blank" rel="noopener">Payer — 7 jours</a>
-      <a class="btn" href="https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01" target="_blank" rel="noopener">Payer — 21 jours</a>
-      <a class="btn" href="https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02" target="_blank" rel="noopener">Payer — 30 jours</a>
-    </div>
-    <p class="hint" style="margin-top:10px;">Le paiement confirme ta place immédiatement. Tu recevras un e-mail avec les prochaines étapes.</p>
-  </div>
-</section>
+
+      <!-- 🔶 Boutons de paiement (pré-sélectionnent la durée et scrollent au formulaire) -->
+      <section style="border-top:1px solid rgba(232,220,200,.08);padding:24px 0;">
+        <div class="container">
+          <h3 style="font-family:'Cormorant Garamond',serif;margin:0 0 12px;font-size:26px;">Choisissez votre formule</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <button class="btn" type="button" onclick="selectPlan('7 jours')">Payer — 7 jours</button>
+            <button class="btn" type="button" onclick="selectPlan('21 jours')">Payer — 21 jours</button>
+            <button class="btn" type="button" onclick="selectPlan('30 jours')">Payer — 30 jours</button>
+          </div>
+          <p class="muted" style="margin-top:10px">Les boutons ci-dessus pré-sélectionnent la durée dans le formulaire ci-dessous. Le paiement s’ouvre au clic sur “Valider & payer”.</p>
+        </div>
+      </section>
+
+      <!-- 🔶 Formulaire d'inscription Mailchimp (juste sous les boutons) -->
+      <h2 id="form">Inscription</h2>
+      <form 
+        action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0"
+        method="post" id="mc-form-details" target="mc-target" novalidate style="margin-top:10px">
+        
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+          <div>
+            <label for="d-lname">Nom</label>
+            <input class="field" id="d-lname" name="LNAME" required />
+          </div>
+          <div>
+            <label for="d-fname">Prénom</label>
+            <input class="field" id="d-fname" name="FNAME" required />
+          </div>
+          <div style="grid-column:1/-1">
+            <label for="d-email">Adresse e-mail</label>
+            <input class="field" id="d-email" name="EMAIL" type="email" required />
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label for="d-duree">Durée choisie</label>
+          <select class="field" id="d-duree" name="DUREE" required>
+            <option value=""></option>
+            <option value="7 jours">7 jours</option>
+            <option value="21 jours">21 jours</option>
+            <option value="30 jours">30 jours</option>
+          </select>
+          <div class="muted" style="margin-top:6px">Si vous avez cliqué un bouton ci-dessus, la durée est déjà sélectionnée.</div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label for="d-wa">Numéro WhatsApp</label>
+          <input class="field" id="d-wa" name="WHATSAPP" placeholder="+33 6 12 34 56 78" required />
+        </div>
+
+        <div style="margin-top:12px">
+          <label for="d-goals">Ce que j’attends de ma Retraite@Home</label>
+          <textarea class="field" id="d-goals" name="SELECT" rows="4" placeholder="Partagez vos objectifs, votre motivation…"></textarea>
+        </div>
+
+        <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+          <input id="d-news" name="NEWSLETTER" type="checkbox" checked />
+          <label for="d-news" style="margin:0">Je m’abonne à la newsletter <strong>Vision Vibrancy</strong>.</label>
+        </div>
+
+        <input type="hidden" name="tags" value="Retraite@Home">
+
+        <div class="actions">
+          <a class="btn" href="index.html">Retour</a>
+          <button type="button" class="submit" id="payAndSubscribe">Valider & payer</button>
+        </div>
+      </form>
+
+      <div class="toast" id="toast">Merci 🎉 Inscription envoyée. Paiement ouvert dans un nouvel onglet.</div>
+
       <h2 style="margin-top:28px">Ce que vous allez vivre</h2>
       <ul class="muted">
         <li>Mouvement doux : marche consciente, étirements, pilates, yoga</li>
@@ -92,10 +173,6 @@
         <li>Rituels d’ancrage & protections énergétiques (cadre sécurisé)</li>
         <li>Communauté WhatsApp/Instagram pour le soutien et la motivation</li>
       </ul>
-
-      <div style="margin-top:22px">
-        <a class="btn" href="index.html#inscription">Je m’inscris</a>
-      </div>
     </div>
 
     <aside class="fit-card">
@@ -110,7 +187,7 @@
   </div>
 </main>
 
-<!-- 🔻 FOOTER FINAL AVEC LIENS DORÉS -->
+<!-- 🔻 FOOTER -->
 <footer>
   <div class="container">
     © <span id="year"></span> Vision Vibrancy LP — Retraite@Home ·
@@ -123,9 +200,52 @@
     </small>
   </div>
 </footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+<script>
+  document.getElementById('year').textContent=new Date().getFullYear();
+
+  // Liens Stripe définitifs
+  const LINKS = {
+    '7 jours':  'https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00',
+    '21 jours': 'https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01',
+    '30 jours': 'https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02'
+  };
+
+  // Pré-sélection via les boutons du haut
+  function selectPlan(label){
+    const sel = document.getElementById('d-duree');
+    sel.value = label;
+    document.getElementById('form').scrollIntoView({behavior:'smooth'});
+  }
+
+  // Bouton "Valider & payer" : envoie Mailchimp (iframe) + ouvre Stripe
+  const form  = document.getElementById('mc-form-details');
+  const toast = document.getElementById('toast');
+  document.getElementById('payAndSubscribe').addEventListener('click', () => {
+    const duree = document.getElementById('d-duree').value.trim();
+    const email = document.getElementById('d-email');
+    const ln    = document.getElementById('d-lname');
+    const fn    = document.getElementById('d-fname');
+    const wa    = document.getElementById('d-wa');
+    if(!duree || !LINKS[duree]){ alert('Choisissez une durée (7 / 21 / 30 jours).'); return; }
+    if(!email.value || !email.checkValidity()){ alert('Veuillez saisir un e-mail valide.'); return; }
+    if(!ln.value || !fn.value || !wa.value){ alert('Nom, prénom et WhatsApp sont requis.'); return; }
+
+    // Ouvre Stripe (évite le bloqueur)
+    window.open(LINKS[duree], '_blank', 'noopener');
+
+    // Soumet le formulaire à Mailchimp (dans l’iframe)
+    try{ form.submit(); }catch(e){}
+
+    // Feedback
+    if(toast){
+      toast.style.display='block';
+      setTimeout(()=>toast.style.display='none', 5200);
+    }
+  });
+</script>
 
 </body>
-
 </html>
+
 
