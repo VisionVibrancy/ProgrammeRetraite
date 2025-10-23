@@ -120,21 +120,6 @@
   <button class="cta-big" id="openModal" type="button">Je m’inscris</button>
 </div>
 
-<!-- ÉTAPE 2 — Paiement (cachée jusqu'à l'inscription) -->
-<section id="paiement" style="display:none;border-top:1px solid rgba(232,220,200,.08);">
-  <div class="container" style="padding:28px 0;">
-    <h2 style="font-family:'Cormorant Garamond',serif;margin:0 0 10px;font-size:28px;">Étape 2 — Finaliser ton inscription</h2>
-    <p class="subtitle" style="margin:6px 0 18px;">Choisis la formule qui te convient.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;">
-      <!-- Liens Stripe intégrés directement -->
-      <a id="pay7"  class="btn" href="https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00"  target="_blank" rel="noopener">Payer — 7 jours</a>
-      <a id="pay21" class="btn" href="https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01" target="_blank" rel="noopener">Payer — 21 jours</a>
-      <a id="pay30" class="btn" href="https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02" target="_blank" rel="noopener">Payer — 30 jours</a>
-    </div>
-    <p class="hint" style="margin-top:10px;">Le règlement ouvre ton accès et confirme définitivement ta place.</p>
-  </div>
-</section>
-
 <div class="modal" id="modal" aria-hidden="true" aria-labelledby="modalTitle" role="dialog">
   <div class="modal-card">
     <div class="modal-header">
@@ -191,7 +176,8 @@
 
       <div class="actions">
         <button type="button" class="btn" id="closeModal2">Annuler</button>
-        <button type="submit" class="submit">Valider mon inscription</button>
+        <!-- NOUVEAU : un seul bouton simple -->
+        <button type="button" class="submit" id="payAndSubscribe">Valider & payer</button>
       </div>
     </form>
   </div>
@@ -215,92 +201,54 @@
 <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
+  // Ouverture/fermeture modal
   const modal = document.getElementById('modal');
   const open = () => modal.setAttribute('aria-hidden','false');
   const close = () => modal.setAttribute('aria-hidden','true');
-
   document.getElementById('openModal').addEventListener('click', open);
   document.getElementById('closeModal').addEventListener('click', close);
   document.getElementById('closeModal2').addEventListener('click', close);
   modal.addEventListener('click',(e)=>{ if(e.target===modal) close(); });
   document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') close(); });
-
   if (location.hash === '#inscription' || location.hash === '#openModal') { open(); }
 </script>
 
-<!-- (optionnel) Déclaration des liens de paiement en JS, cohérents avec le HTML -->
 <script>
-  const PAY_7  = "https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00";
-  const PAY_21 = "https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01";
-  const PAY_30 = "https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02";
-</script>
+  // Liens Stripe (définitifs)
+  const LINKS = {
+    '7 jours':  'https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00',
+    '21 jours': 'https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01',
+    '30 jours': 'https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02'
+  };
 
-<script>
-  const mcFrame = document.querySelector('iframe[name="mc-target"]');
-  const toast = document.getElementById('toast');
-  const modalEl = document.getElementById('modal');
+  const form      = document.getElementById('mc-embedded-subscribe-form');
+  const dureeSel  = document.getElementById('mce-DUREE');
+  const emailEl   = document.getElementById('mce-EMAIL');
+  const lnameEl   = document.getElementById('mce-LNAME');
+  const fnameEl   = document.getElementById('mce-FNAME');
+  const toast     = document.getElementById('toast');
 
-  if (mcFrame) {
-    mcFrame.addEventListener('load', () => {
-      if (modalEl && modalEl.getAttribute('aria-hidden') === 'false') {
-        modalEl.setAttribute('aria-hidden', 'true');
-      }
-      if (toast) {
-        toast.textContent = 'Merci 🎉 Vous êtes inscrite, un e-mail arrive très vite.';
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 5200);
-      }
-      // affiche la section Paiement et mise en avant
-      const paySec   = document.getElementById('paiement');
-      const dureeSel = document.getElementById('mce-DUREE');
-      if (paySec) {
-        paySec.style.display = 'block';
-        // scroll vers la section
-        paySec.scrollIntoView({ behavior:'smooth', block:'start' });
-        // met en avant le choix si présent
-        highlightChoice(dureeSel?.value || '');
-      }
-    });
-  }
-</script>
+  // Bouton unique : valide le formulaire, envoie à Mailchimp (iframe), et ouvre Stripe
+  document.getElementById('payAndSubscribe').addEventListener('click', () => {
+    // 1) validations simples
+    const choix = (dureeSel.value || '').trim();
+    if (!choix || !LINKS[choix]) { alert('Choisis la durée (7 / 21 / 30 jours).'); return; }
+    if (!emailEl.value || !emailEl.checkValidity()) { alert('Entre une adresse e-mail valide.'); return; }
+    if (!lnameEl.value || !fnameEl.value) { alert('Nom et prénom sont requis.'); return; }
 
-<script>
-  const formMC   = document.getElementById('mc-embedded-subscribe-form');
-  const dureeSel = document.getElementById('mce-DUREE');
-  if (formMC && dureeSel) {
-    let tagInput = formMC.querySelector('input[name="tags"]');
-    formMC.addEventListener('submit', () => {
-      const v = (dureeSel.value || '').trim();
-      const add = v === '7 jours' ? 'RTH-7' : v === '21 jours' ? 'RTH-21' : v === '30 jours' ? 'RTH-30' : '';
-      tagInput.value = add ? `Retraite@Home, ${add}` : 'Retraite@Home';
-    });
-  }
-</script>
+    // 2) ouverture immédiate (évite le bloqueur de pop-up)
+    const payWin = window.open(LINKS[choix], '_blank', 'noopener');
 
-<script>
-  const btn7  = document.getElementById('pay7');
-  const btn21 = document.getElementById('pay21');
-  const btn30 = document.getElementById('pay30');
+    // 3) envoie le formulaire Mailchimp dans l’iframe
+    try { form.submit(); } catch(e) { /* no-op */ }
 
-  // (sécurité) aligne les href si besoin
-  if (btn7)  btn7.href  = PAY_7;
-  if (btn21) btn21.href = PAY_21;
-  if (btn30) btn30.href = PAY_30;
-
-  function highlightChoice(value){
-    [btn7, btn21, btn30].forEach(b=>{
-      if(!b) return;
-      b.style.boxShadow = "0 0 0 1px rgba(227,197,122,.25) inset, 0 0 12px rgba(227,197,122,.12)";
-      b.style.background = "transparent";
-    });
-    if (value === '7 jours'  && btn7)  btn7.style.background  = "rgba(227,197,122,.10)";
-    if (value === '21 jours' && btn21) btn21.style.background = "rgba(227,197,122,.10)";
-    if (value === '30 jours' && btn30) btn30.style.background = "rgba(227,197,122,.10)";
-  }
+    // 4) feedback + fermeture modale
+    toast.textContent = 'Merci 🎉 Inscription envoyée. Paiement ouvert dans un nouvel onglet.';
+    toast.style.display = 'block';
+    setTimeout(()=>toast.style.display='none', 5200);
+    document.getElementById('modal').setAttribute('aria-hidden','true');
+  });
 </script>
 
 </body>
 </html>
-
