@@ -11,7 +11,6 @@
 <style>
   :root{--bg:#0a0a0a;--ink:#fff;--gold-strong:#E3C57A;--muted:#d9d6cf}
 
-  /* layout utilitaire */
   .container{max-width:1200px;margin-inline:auto;padding:0 20px}
 
   body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
@@ -21,11 +20,8 @@
   .brand img{height:100px}
   .brand-title{font-family:"Cormorant Garamond",serif;font-size:26px}
 
-  .btn{
-    border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink);
-    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10);
-    background:transparent;cursor:pointer
-  }
+  .btn{border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink);
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10);background:transparent;cursor:pointer}
   .btn:hover{background:rgba(227,197,122,.08)}
 
   main{padding:40px 20px;max-width:1200px;margin:auto}
@@ -35,19 +31,17 @@
   .grid{display:grid;gap:22px}
   @media(min-width:980px){ .cols-2{grid-template-columns:2fr 1.1fr} }
 
-  /* cartes tarifs */
+  /* Cartes tarifs */
   .card{
     border:1px solid rgba(232,220,200,.12);border-radius:16px;padding:16px;
     background:linear-gradient(180deg, rgba(227,197,122,.05), rgba(227,197,122,0));
     display:flex;flex-direction:column;gap:10px
   }
   .card h3{margin:0 0 4px}
-  .card .muted{margin:0 0 6px}
-  .card .plan-btn{
-    display:inline-block;text-align:center;font-weight:700
-  }
+  .card .muted{margin:0 0 8px}
+  .plan-btn{display:inline-block;text-align:center;font-weight:700;width:100%}
 
-  /* encarts latéraux */
+  /* Colonne droite */
   .fit-col{display:flex;flex-direction:column;gap:18px}
   .fit-card{
     border:1px solid var(--gold-strong);border-radius:16px;
@@ -63,7 +57,7 @@
   .fit-card li{margin:10px 0;position:relative;padding-left:22px}
   .fit-card li::before{content:"◆";position:absolute;left:0;color:var(--gold-strong);line-height:1}
 
-  /* formulaire */
+  /* Formulaire (fix Nom/Prénom) */
   label{display:block;margin:6px 0 6px}
   .field{
     width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;
@@ -87,7 +81,6 @@
 </head>
 <body>
 
-<!-- cible invisible pour Mailchimp -->
 <iframe name="mc-target" style="display:none;width:0;height:0;border:0;" title="Mailchimp target"></iframe>
 
 <header>
@@ -102,26 +95,24 @@
   <h1>Retraite@Home — Détox & Renaissance</h1>
 
   <div class="grid cols-2">
-    <!-- Colonne gauche : tarifs + formulaire -->
+    <!-- Colonne gauche -->
     <div>
-      <!-- TITRE + EXPLICATION -->
+      <!-- 1) Titre & explication -->
       <h2>3 Formats — Choisissez votre formule</h2>
       <p class="muted">Les boutons ci-dessus pré-sélectionnent la durée dans le formulaire ci-dessous. Le paiement s’ouvre au clic sur « Valider & payer ».</p>
 
-      <!-- CARTES TARIFS AVEC BOUTONS (prix sur le bouton) -->
+      <!-- Cartes avec BOUTONS (prix écrits sur le bouton) -->
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
         <div class="card">
           <h3>7 jours — Découverte</h3>
           <p class="muted">Un avant-goût transformateur + 1 live.</p>
           <button class="btn plan-btn" type="button" onclick="selectPlan('7 jours')">Payer — 97€ • 7 jours</button>
         </div>
-
         <div class="card">
           <h3>21 jours — Transformation</h3>
           <p class="muted">Habitudes ancrées, énergie retrouvée, 3 lives.</p>
           <button class="btn plan-btn" type="button" onclick="selectPlan('21 jours')">Payer — 247€ • 21 jours</button>
         </div>
-
         <div class="card">
           <h3>30 jours — Renaissance</h3>
           <p class="muted">Programme complet + cérémonie finale & surprise VIP.</p>
@@ -129,7 +120,7 @@
         </div>
       </div>
 
-      <!-- FORMULAIRE (juste sous les cartes) -->
+      <!-- Formulaire -->
       <h2 id="form" style="margin-top:28px">Inscription</h2>
       <form 
         action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0"
@@ -187,7 +178,7 @@
       <div class="toast" id="toast">Merci 🎉 Inscription envoyée. Paiement ouvert dans un nouvel onglet.</div>
     </div>
 
-    <!-- Colonne droite : encarts -->
+    <!-- Colonne droite : « C’est pour vous si » + « Ce que vous allez vivre » -->
     <aside class="fit-col">
       <div class="fit-card" style="padding-bottom:14px;">
         <h3>C’est pour vous si :</h3>
@@ -212,7 +203,6 @@
   </div>
 </main>
 
-<!-- 🔻 FOOTER -->
 <footer>
   <div class="container">
     © <span id="year"></span> Vision Vibrancy LP — Retraite@Home ·
@@ -229,21 +219,21 @@
 <script>
   document.getElementById('year').textContent=new Date().getFullYear();
 
-  // Liens Stripe
+  // Liens Stripe définitifs
   const LINKS = {
     '7 jours':  'https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00',
     '21 jours': 'https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01',
     '30 jours': 'https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02'
   };
 
-  // Pré-sélection via bouton des cartes
+  // Pré-sélection depuis les boutons de cartes
   function selectPlan(label){
     const sel = document.getElementById('d-duree');
     sel.value = label;
     document.getElementById('form').scrollIntoView({behavior:'smooth'});
   }
 
-  // Bouton "Valider & payer" : vérif + ouvre Stripe + soumet Mailchimp (iframe)
+  // Bouton unique : vérif + ouvre Stripe + envoie Mailchimp (iframe)
   const form  = document.getElementById('mc-form-details');
   const toast = document.getElementById('toast');
   document.getElementById('payAndSubscribe').addEventListener('click', () => {
@@ -257,8 +247,8 @@
     if(!email.value || !email.checkValidity()){ alert('Veuillez saisir un e-mail valide.'); return; }
     if(!ln.value || !fn.value || !wa.value){ alert('Nom, prénom et WhatsApp sont requis.'); return; }
 
-    window.open(LINKS[duree], '_blank', 'noopener'); // ouvre Stripe
-    try{ form.submit(); }catch(e){} // envoie Mailchimp
+    window.open(LINKS[duree], '_blank', 'noopener');
+    try{ form.submit(); }catch(e){}
 
     if(toast){
       toast.style.display='block';
@@ -269,6 +259,4 @@
 
 </body>
 </html>
-
-
 
