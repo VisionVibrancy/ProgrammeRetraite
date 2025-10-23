@@ -10,7 +10,8 @@
 
 <style>
   :root{--bg:#0a0a0a;--ink:#fff;--gold-strong:#E3C57A;--muted:#d9d6cf}
-  /* container ajouté (utilisé dans cette page) */
+
+  /* layout utilitaire */
   .container{max-width:1200px;margin-inline:auto;padding:0 20px}
 
   body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
@@ -19,9 +20,11 @@
   .brand{display:flex;align-items:center;gap:10px}
   .brand img{height:100px}
   .brand-title{font-family:"Cormorant Garamond",serif;font-size:26px}
+
   .btn{
     border:1px solid var(--gold-strong);padding:8px 14px;border-radius:999px;color:var(--ink);
-    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10)
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 10px rgba(227,197,122,.10);
+    background:transparent;cursor:pointer
   }
   .btn:hover{background:rgba(227,197,122,.08)}
 
@@ -32,14 +35,23 @@
   .grid{display:grid;gap:22px}
   @media(min-width:980px){ .cols-2{grid-template-columns:2fr 1.1fr} }
 
-  .card{border:1px solid rgba(232,220,200,.12);border-radius:16px;padding:16px;background:linear-gradient(180deg, rgba(227,197,122,.05), rgba(227,197,122,0))}
-  .price{font-size:22px;font-weight:500;background:linear-gradient(90deg,#b99854,#E3C57A,#b99854);-webkit-background-clip:text;color:transparent;animation:shimmer 4s linear infinite}
-  @keyframes shimmer{from{background-position:0% 50%}to{background-position:200% 50%}}
+  /* cartes tarifs */
+  .card{
+    border:1px solid rgba(232,220,200,.12);border-radius:16px;padding:16px;
+    background:linear-gradient(180deg, rgba(227,197,122,.05), rgba(227,197,122,0));
+    display:flex;flex-direction:column;gap:10px
+  }
+  .card h3{margin:0 0 4px}
+  .card .muted{margin:0 0 6px}
+  .card .plan-btn{
+    display:inline-block;text-align:center;font-weight:700
+  }
 
+  /* encarts latéraux */
+  .fit-col{display:flex;flex-direction:column;gap:18px}
   .fit-card{
     border:1px solid var(--gold-strong);border-radius:16px;
     padding:20px;background:rgba(20,20,20,.9);
-    display:flex;flex-direction:column;justify-content:center;min-height:360px;
     box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 16px rgba(227,197,122,.12);
   }
   .fit-card h3{text-align:center;margin:0 0 10px;position:relative;padding-bottom:8px}
@@ -51,9 +63,13 @@
   .fit-card li{margin:10px 0;position:relative;padding-left:22px}
   .fit-card li::before{content:"◆";position:absolute;left:0;color:var(--gold-strong);line-height:1}
 
-  /* Formulaire (mêmes styles que index) */
-  .field{width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;border:1px solid var(--gold-strong);
-    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 14px rgba(227,197,122,.12)}
+  /* formulaire */
+  label{display:block;margin:6px 0 6px}
+  .field{
+    width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;
+    border:1px solid var(--gold-strong);
+    box-shadow:0 0 0 1px rgba(227,197,122,.25) inset, 0 0 14px rgba(227,197,122,.12)
+  }
   .field:focus{box-shadow:0 0 0 3px rgba(227,197,122,.22), 0 0 22px rgba(227,197,122,.18)}
   .actions{display:flex;gap:10px;justify-content:flex-end;margin:14px 0 18px}
   .submit{border:1px solid var(--gold-strong);color:var(--ink);background:transparent;border-radius:999px;padding:.7rem 1rem;font-weight:700;
@@ -86,35 +102,39 @@
   <h1>Retraite@Home — Détox & Renaissance</h1>
 
   <div class="grid cols-2">
+    <!-- Colonne gauche : tarifs + formulaire -->
     <div>
-      <p class="muted">Retraite intégrée au quotidien : routines matinales en vidéo, 1 live/semaine (énergie & fréquences, alimentation consciente, confiance en soi, visualisation du futur), coaching holistique et sécurité énergétique (ancrage & protections).</p>
+      <!-- TITRE + EXPLICATION -->
+      <h2>3 Formats — Choisissez votre formule</h2>
+      <p class="muted">Les boutons ci-dessus pré-sélectionnent la durée dans le formulaire ci-dessous. Le paiement s’ouvre au clic sur « Valider & payer ».</p>
 
-      <h2>3 formats — choisissez votre rythme</h2>
+      <!-- CARTES TARIFS AVEC BOUTONS (prix sur le bouton) -->
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-        <div class="card"><h3>7 jours — Découverte</h3><p class="muted">Un avant-goût transformateur + 1 live.</p><p class="price">97€</p></div>
-        <div class="card"><h3>21 jours — Transformation</h3><p class="muted">Habitudes ancrées, énergie retrouvée, 3 lives.</p><p class="price">247€</p></div>
-        <div class="card"><h3>30 jours — Renaissance</h3><p class="muted">Programme complet + cérémonie finale & surprise VIP.</p><p class="price">333€</p></div>
+        <div class="card">
+          <h3>7 jours — Découverte</h3>
+          <p class="muted">Un avant-goût transformateur + 1 live.</p>
+          <button class="btn plan-btn" type="button" onclick="selectPlan('7 jours')">Payer — 97€ • 7 jours</button>
+        </div>
+
+        <div class="card">
+          <h3>21 jours — Transformation</h3>
+          <p class="muted">Habitudes ancrées, énergie retrouvée, 3 lives.</p>
+          <button class="btn plan-btn" type="button" onclick="selectPlan('21 jours')">Payer — 247€ • 21 jours</button>
+        </div>
+
+        <div class="card">
+          <h3>30 jours — Renaissance</h3>
+          <p class="muted">Programme complet + cérémonie finale & surprise VIP.</p>
+          <button class="btn plan-btn" type="button" onclick="selectPlan('30 jours')">Payer — 333€ • 30 jours</button>
+        </div>
       </div>
 
-      <!-- 🔶 Boutons de paiement (pré-sélectionnent la durée et scrollent au formulaire) -->
-      <section style="border-top:1px solid rgba(232,220,200,.08);padding:24px 0;">
-        <div class="container">
-          <h3 style="font-family:'Cormorant Garamond',serif;margin:0 0 12px;font-size:26px;">Choisissez votre formule</h3>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;">
-            <button class="btn" type="button" onclick="selectPlan('7 jours')">Payer — 7 jours</button>
-            <button class="btn" type="button" onclick="selectPlan('21 jours')">Payer — 21 jours</button>
-            <button class="btn" type="button" onclick="selectPlan('30 jours')">Payer — 30 jours</button>
-          </div>
-          <p class="muted" style="margin-top:10px">Les boutons ci-dessus pré-sélectionnent la durée dans le formulaire ci-dessous. Le paiement s’ouvre au clic sur “Valider & payer”.</p>
-        </div>
-      </section>
-
-      <!-- 🔶 Formulaire d'inscription Mailchimp (juste sous les boutons) -->
-      <h2 id="form">Inscription</h2>
+      <!-- FORMULAIRE (juste sous les cartes) -->
+      <h2 id="form" style="margin-top:28px">Inscription</h2>
       <form 
         action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0"
         method="post" id="mc-form-details" target="mc-target" novalidate style="margin-top:10px">
-        
+
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
           <div>
             <label for="d-lname">Nom</label>
@@ -165,24 +185,29 @@
       </form>
 
       <div class="toast" id="toast">Merci 🎉 Inscription envoyée. Paiement ouvert dans un nouvel onglet.</div>
-
-      <h2 style="margin-top:28px">Ce que vous allez vivre</h2>
-      <ul class="muted">
-        <li>Mouvement doux : marche consciente, étirements, pilates, yoga</li>
-        <li>Détox psychique : respiration, visualisations, journaling, gratitude</li>
-        <li>Rituels d’ancrage & protections énergétiques (cadre sécurisé)</li>
-        <li>Communauté WhatsApp/Instagram pour le soutien et la motivation</li>
-      </ul>
     </div>
 
-    <aside class="fit-card">
-      <h3>C’est pour vous si :</h3>
-      <ul>
-        <li>Vous êtes <strong>prête au changement</strong> et vous vous choisissez, même au cœur du quotidien.</li>
-        <li>Vous êtes <strong>motivée</strong> et prête à <strong>investir en vous</strong> pour des résultats durables.</li>
-        <li>Vous acceptez d’aller <strong>en profondeur</strong> (émotions, croyances, habitudes) avec bienveillance.</li>
-        <li>Vous souhaitez laisser le <strong>new age</strong> au vestiaire et avancer dans un cadre sobre, ancré et sécurisant.</li>
-      </ul>
+    <!-- Colonne droite : encarts -->
+    <aside class="fit-col">
+      <div class="fit-card" style="padding-bottom:14px;">
+        <h3>C’est pour vous si :</h3>
+        <ul>
+          <li>Vous êtes <strong>prête au changement</strong> et vous vous choisissez, même au cœur du quotidien.</li>
+          <li>Vous êtes <strong>motivée</strong> et prête à <strong>investir en vous</strong> pour des résultats durables.</li>
+          <li>Vous acceptez d’aller <strong>en profondeur</strong> (émotions, croyances, habitudes) avec bienveillance.</li>
+          <li>Vous souhaitez laisser le <strong>new age</strong> au vestiaire et avancer dans un cadre sobre, ancré et sécurisant.</li>
+        </ul>
+      </div>
+
+      <div class="fit-card">
+        <h3>Ce que vous allez vivre</h3>
+        <ul class="muted">
+          <li>Mouvement doux : marche consciente, étirements, pilates, yoga</li>
+          <li>Détox psychique : respiration, visualisations, journaling, gratitude</li>
+          <li>Rituels d’ancrage & protections énergétiques (cadre sécurisé), <strong>surprises tout au long de la retraite</strong>, <strong>coaching individuel et de groupe 1×/semaine</strong></li>
+          <li>Communauté <strong>WhatsApp / Instagram / Facebook</strong> pour le soutien et la motivation</li>
+        </ul>
+      </div>
     </aside>
   </div>
 </main>
@@ -204,21 +229,21 @@
 <script>
   document.getElementById('year').textContent=new Date().getFullYear();
 
-  // Liens Stripe définitifs
+  // Liens Stripe
   const LINKS = {
     '7 jours':  'https://buy.stripe.com/bJecN7fcF8VZa9a85d2Ji00',
     '21 jours': 'https://buy.stripe.com/dRm3cx9Sldcf9565X52Ji01',
     '30 jours': 'https://buy.stripe.com/14A5kF5C55JNepq0CL2Ji02'
   };
 
-  // Pré-sélection via les boutons du haut
+  // Pré-sélection via bouton des cartes
   function selectPlan(label){
     const sel = document.getElementById('d-duree');
     sel.value = label;
     document.getElementById('form').scrollIntoView({behavior:'smooth'});
   }
 
-  // Bouton "Valider & payer" : envoie Mailchimp (iframe) + ouvre Stripe
+  // Bouton "Valider & payer" : vérif + ouvre Stripe + soumet Mailchimp (iframe)
   const form  = document.getElementById('mc-form-details');
   const toast = document.getElementById('toast');
   document.getElementById('payAndSubscribe').addEventListener('click', () => {
@@ -227,17 +252,14 @@
     const ln    = document.getElementById('d-lname');
     const fn    = document.getElementById('d-fname');
     const wa    = document.getElementById('d-wa');
+
     if(!duree || !LINKS[duree]){ alert('Choisissez une durée (7 / 21 / 30 jours).'); return; }
     if(!email.value || !email.checkValidity()){ alert('Veuillez saisir un e-mail valide.'); return; }
     if(!ln.value || !fn.value || !wa.value){ alert('Nom, prénom et WhatsApp sont requis.'); return; }
 
-    // Ouvre Stripe (évite le bloqueur)
-    window.open(LINKS[duree], '_blank', 'noopener');
+    window.open(LINKS[duree], '_blank', 'noopener'); // ouvre Stripe
+    try{ form.submit(); }catch(e){} // envoie Mailchimp
 
-    // Soumet le formulaire à Mailchimp (dans l’iframe)
-    try{ form.submit(); }catch(e){}
-
-    // Feedback
     if(toast){
       toast.style.display='block';
       setTimeout(()=>toast.style.display='none', 5200);
@@ -247,5 +269,6 @@
 
 </body>
 </html>
+
 
 
