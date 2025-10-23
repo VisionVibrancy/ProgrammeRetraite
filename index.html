@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>   
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
@@ -120,6 +120,21 @@
   <button class="cta-big" id="openModal" type="button">Je m’inscris</button>
 </div>
 
+<!-- ADDED: ÉTAPE 2 — Paiement (cachée jusqu'à l'inscription) -->
+<section id="paiement" style="display:none;border-top:1px solid rgba(232,220,200,.08);">
+  <div class="container" style="padding:28px 0;">
+    <h2 style="font-family:'Cormorant Garamond',serif;margin:0 0 10px;font-size:28px;">Étape 2 — Finaliser ton inscription</h2>
+    <p class="subtitle" style="margin:6px 0 18px;">Choisis la formule qui te convient.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+      <a id="pay7"  class="btn" href="#" target="_blank" rel="noopener">Payer — 7 jours</a>
+      <a id="pay21" class="btn" href="#" target="_blank" rel="noopener">Payer — 21 jours</a>
+      <a id="pay30" class="btn" href="#" target="_blank" rel="noopener">Payer — 30 jours</a>
+    </div>
+    <p class="hint" style="margin-top:10px;">Le règlement ouvre ton accès et confirme définitivement ta place.</p>
+  </div>
+</section>
+<!-- /ADDED -->
+
 <div class="modal" id="modal" aria-hidden="true" aria-labelledby="modalTitle" role="dialog">
   <div class="modal-card">
     <div class="modal-header">
@@ -215,6 +230,15 @@
   if (location.hash === '#inscription' || location.hash === '#openModal') { open(); }
 </script>
 
+<!-- ADDED: Déclaration des liens de paiement -->
+<script>
+  // ✅ REMPLACE ces URL par tes liens Stripe/PayPal
+  const PAY_7  = "https://ton-lien-de-paiement-7-jours.com";   // <— à remplacer
+  const PAY_21 = "https://ton-lien-de-paiement-21-jours.com";  // <— à remplacer
+  const PAY_30 = "https://ton-lien-de-paiement-30-jours.com";  // <— à remplacer
+</script>
+<!-- /ADDED -->
+
 <script>
   const mcFrame = document.querySelector('iframe[name="mc-target"]');
   const toast = document.getElementById('toast');
@@ -229,6 +253,16 @@
         toast.textContent = 'Merci 🎉 Vous êtes inscrite, un e-mail arrive très vite.';
         toast.style.display = 'block';
         setTimeout(() => { toast.style.display = 'none'; }, 5200);
+      }
+      // ADDED: affiche la section Paiement et mise en avant
+      const paySec   = document.getElementById('paiement');
+      const dureeSel = document.getElementById('mce-DUREE');
+      if (paySec) {
+        paySec.style.display = 'block';
+        // scroll vers la section
+        paySec.scrollIntoView({ behavior:'smooth', block:'start' });
+        // met en avant le choix si présent
+        highlightChoice(dureeSel?.value || '');
       }
     });
   }
@@ -246,6 +280,30 @@
     });
   }
 </script>
+
+<!-- ADDED: branchement des boutons de paiement + highlight -->
+<script>
+  const btn7  = document.getElementById('pay7');
+  const btn21 = document.getElementById('pay21');
+  const btn30 = document.getElementById('pay30');
+
+  // attribue les URLs de paiement
+  if (btn7)  btn7.href  = PAY_7;
+  if (btn21) btn21.href = PAY_21;
+  if (btn30) btn30.href = PAY_30;
+
+  function highlightChoice(value){
+    [btn7, btn21, btn30].forEach(b=>{
+      if(!b) return;
+      b.style.boxShadow = "0 0 0 1px rgba(227,197,122,.25) inset, 0 0 12px rgba(227,197,122,.12)";
+      b.style.background = "transparent";
+    });
+    if (value === '7 jours'  && btn7)  btn7.style.background  = "rgba(227,197,122,.10)";
+    if (value === '21 jours' && btn21) btn21.style.background = "rgba(227,197,122,.10)";
+    if (value === '30 jours' && btn30) btn30.style.background = "rgba(227,197,122,.10)";
+  }
+</script>
+<!-- /ADDED -->
 
 </body>
 </html>
