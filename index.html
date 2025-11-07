@@ -90,6 +90,25 @@
   @media(max-width:480px){
     .field { font-size:16px; }
   }
+  /* Organisation des champs Prénom / Nom côte à côte */
+.grid.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 colonnes */
+  gap: 10px; /* espace entre les champs */
+}
+
+/* Version mobile (évite les chevauchements) */
+@media (max-width: 600px) {
+  .grid.two {
+    grid-template-columns: 1fr; /* passe en colonne */
+  }
+}
+
+/* Optionnel : rend les champs un peu plus élégants */
+input.field, input[type="text"], input[type="email"] {
+  padding: 10px 12px;
+  font-size: 15px;
+}
 </style>
 </head>
 <body>
@@ -252,4 +271,5 @@
 
 </body>
 </html>
+
 
