@@ -39,7 +39,7 @@
     display:flex;flex-direction:column;gap:10px;min-height:190px;
   }
   .card h3{margin:0 0 4px}
-  .card .muted{margin:0 0 8px;min-height:48px} /* ✅ force même hauteur de zone texte pour aligner les boutons */
+  .card .muted{margin:0 0 8px;min-height:48px}
   .plan-btn{display:inline-block;text-align:center;font-weight:700;width:100%;margin-top:auto}
 
   /* Colonne droite */
@@ -59,9 +59,9 @@
   .fit-card li::before{content:"◆";position:absolute;left:0;color:var(--gold-strong);line-height:1}
 
   /* Formulaire */
-  .form-shell{max-width:520px;margin:0 auto} /* ✅ plus compact et centré */
+  .form-shell{max-width:520px;margin:0 auto}
   label{display:block;margin:6px 0 6px}
-  .fields-grid{display:grid;gap:16px;grid-template-columns:1fr 1fr} /* ✅ espace Nom/Prénom */
+  .fields-grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
   @media(max-width:600px){ .fields-grid{grid-template-columns:1fr} }
   .field{
     width:100%;padding:12px 14px;border-radius:12px;background:#0f0f0f;color:var(--ink);outline:none;
@@ -70,10 +70,10 @@
   }
   .field:focus{box-shadow:0 0 0 3px rgba(227,197,122,.22), 0 0 22px rgba(227,197,122,.18)}
 
-  .actions{display:flex;justify-content:center;margin:18px 0 8px} /* ✅ centré */
+  .actions{display:flex;justify-content:center;margin:18px 0 8px}
   .submit{
     border:1px solid var(--gold-strong);color:var(--ink);background:transparent;border-radius:999px;
-    padding:14px 28px;font-weight:800;font-size:1.05rem;letter-spacing:.2px; /* ✅ plus grand */
+    padding:14px 28px;font-weight:800;font-size:1.05rem;letter-spacing:.2px;
     box-shadow:0 0 0 1px rgba(227,197,122,.35) inset, 0 0 14px rgba(227,197,122,.18);cursor:pointer
   }
   .submit:hover{background:rgba(227,197,122,.12)}
@@ -96,7 +96,6 @@
     <img src="logo.jpg" alt="Vision Vibrancy">
     <span class="brand-title">Retraite@Home</span>
   </div>
-  <!-- bouton Retour supprimé -->
 </header>
 
 <main>
@@ -128,28 +127,23 @@
       </div>
 
       <!-- Formulaire (centré et compact) -->
-<h2 id="form" style="margin-top:28px">Inscription</h2>
+      <h2 id="form" style="margin-top:28px">Inscription</h2>
 
-<form 
-  action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0&amp;tags=RetraiteAtHome"
-  method="post" id="mc-form-details" target="mc-target" novalidate 
-  class="form-shell" style="margin-top:10px">
+      <form 
+        action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0"
+        method="post" id="mc-form-details" target="mc-target" novalidate 
+        class="form-shell" style="margin-top:10px">
 
-  <div class="fields-grid">
-    <div>
-      <label for="d-lname">Nom</label>
-      <input class="field" id="d-lname" name="LNAME" required />
-    </div>
+        <div class="fields-grid">
+          <div>
+            <label for="d-lname">Nom</label>
+            <input class="field" id="d-lname" name="LNAME" required />
+          </div>
 
-    <div>
-      <label for="d-fname">Prénom</label>
-      <input class="field" id="d-fname" name="FNAME" required />
-    </div>
-  </div>
-
-  <!-- (le reste de ton formulaire ici) -->
-
-</form>
+          <div>
+            <label for="d-fname">Prénom</label>
+            <input class="field" id="d-fname" name="FNAME" required />
+          </div>
         </div>
 
         <div style="margin-top:12px">
@@ -183,6 +177,7 @@
           <label for="d-news" style="margin:0">Je m’abonne à la newsletter <strong>Vision Vibrancy</strong>.</label>
         </div>
 
+        <!-- Tag Mailchimp cohérent avec ton nom -->
         <input type="hidden" name="tags" value="Retraite@Home">
 
         <div class="actions">
@@ -274,8 +269,3 @@
 
 </body>
 </html>
-
-
-
-
-
