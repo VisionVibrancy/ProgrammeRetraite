@@ -91,24 +91,22 @@
     .field { font-size:16px; }
   }
   /* Organisation des champs Prénom / Nom côte à côte */
-.grid.two {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 colonnes */
-  gap: 10px; /* espace entre les champs */
-}
-
-/* Version mobile (évite les chevauchements) */
-@media (max-width: 600px) {
   .grid.two {
-    grid-template-columns: 1fr; /* passe en colonne */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-}
 
-/* Optionnel : rend les champs un peu plus élégants */
-input.field, input[type="text"], input[type="email"] {
-  padding: 10px 12px;
-  font-size: 15px;
-}
+  @media (max-width: 600px) {
+    .grid.two {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  input.field, input[type="text"], input[type="email"] {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
 </style>
 </head>
 <body>
@@ -147,9 +145,9 @@ input.field, input[type="text"], input[type="email"] {
     </div>
 
     <form 
-       action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0&amp;tags=RetraiteAtHome"
-  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-  class="form-body validate" target="mc-target" novalidate>
+      action="https://visionvibrancy.us6.list-manage.com/subscribe/post?u=505480829f73480597694472f&amp;id=32ac31451a&amp;f_id=00f5cde1f0"
+      method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+      class="form-body validate" target="mc-target" novalidate>
       <div class="grid two">
         <div>
           <label for="mce-LNAME">Nom</label>
@@ -190,11 +188,11 @@ input.field, input[type="text"], input[type="email"] {
         <label for="newsletter" style="margin:0">Je m’abonne à la newsletter <strong>Vision Vibrancy</strong>.</label>
       </div>
 
+      <!-- Tag Mailchimp cohérent -->
       <input type="hidden" name="tags" value="Retraite@Home">
 
       <div class="actions">
         <button type="button" class="btn" id="closeModal2">Annuler</button>
-        <!-- NOUVEAU : un seul bouton simple -->
         <button type="button" class="submit" id="payAndSubscribe">Valider & payer</button>
       </div>
     </form>
@@ -203,7 +201,6 @@ input.field, input[type="text"], input[type="email"] {
 
 <div class="toast" id="toast">Merci 🎉 Vous allez recevoir un e-mail de confirmation avec les prochaines étapes.</div>
 
-<!-- 🔻 FOOTER FINAL AVEC LIENS DORÉS -->
 <footer>
   <div class="container">
     © <span id="year"></span> Vision Vibrancy LP — Retraite@Home ·
@@ -244,23 +241,22 @@ input.field, input[type="text"], input[type="email"] {
   const emailEl   = document.getElementById('mce-EMAIL');
   const lnameEl   = document.getElementById('mce-LNAME');
   const fnameEl   = document.getElementById('mce-FNAME');
+  const waEl      = document.getElementById('mce-WHATSAPP');
   const toast     = document.getElementById('toast');
 
   // Bouton unique : valide le formulaire, envoie à Mailchimp (iframe), et ouvre Stripe
   document.getElementById('payAndSubscribe').addEventListener('click', () => {
-    // 1) validations simples
     const choix = (dureeSel.value || '').trim();
+
     if (!choix || !LINKS[choix]) { alert('Choisis la durée (7 / 21 / 30 jours).'); return; }
     if (!emailEl.value || !emailEl.checkValidity()) { alert('Entre une adresse e-mail valide.'); return; }
     if (!lnameEl.value || !fnameEl.value) { alert('Nom et prénom sont requis.'); return; }
+    if (!waEl.value) { alert('Le numéro WhatsApp est requis.'); return; }
 
-    // 2) ouverture immédiate (évite le bloqueur de pop-up)
     const payWin = window.open(LINKS[choix], '_blank', 'noopener');
 
-    // 3) envoie le formulaire Mailchimp dans l’iframe
-    try { form.submit(); } catch(e) { /* no-op */ }
+    try { form.submit(); } catch(e) {}
 
-    // 4) feedback + fermeture modale
     toast.textContent = 'Merci 🎉 Inscription envoyée. Paiement ouvert dans un nouvel onglet.';
     toast.style.display = 'block';
     setTimeout(()=>toast.style.display='none', 5200);
@@ -270,7 +266,3 @@ input.field, input[type="text"], input[type="email"] {
 
 </body>
 </html>
-
-
-
-
